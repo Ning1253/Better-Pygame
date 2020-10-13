@@ -80,7 +80,7 @@ class Display():
 
         text = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
 
-        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle + angle, sdl2.SDL_Point(int(surface.w/2), int(surface.h/2)), sdl2.SDL_FLIP_NONE)
+        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle - angle, sdl2.SDL_Point(int(surface.w/2), int(surface.h/2)), sdl2.SDL_FLIP_NONE)
 
 
 
@@ -130,7 +130,7 @@ class Surface():
         
         text = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
 
-        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle + angle, sdl2.SDL_Point(0, 0), sdl2.SDL_FLIP_NONE)
+        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle - angle, sdl2.SDL_Point(0, 0), sdl2.SDL_FLIP_NONE)
     
     def fill(self, colour):
         colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256)
