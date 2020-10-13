@@ -8,7 +8,7 @@ old_stdout = sys.stdout # backup current stdout
 sys.stdout = open(os.devnull, "w")
 
 import sdl2, sdl2.ext, sdl2.sdlgfx as gfx
-from events import *
+
 
 sys.stdout = old_stdout # reset old stdout
 
@@ -45,10 +45,11 @@ class Display():
 
     
     def fill(self, colour):
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256)
         sdl2.SDL_SetRenderDrawColor(self.renderer, colour[0], colour[1], colour[2], 255)
         sdl2.SDL_RenderClear(self.renderer)
     
-    def blit(self, surface, src = None, dest = None):
+    def blit(self, surface, src = None, dest = None, angle = 0):
         if src:
             srcrect = sdl2.SDL_Rect(src[0][0], src[0][1], src[1][0] - src[0][0], src[1][1] - src[0][1])
 
@@ -57,30 +58,34 @@ class Display():
         if dest:
             if len(dest) == 2:
                 if src:
-                    dstrect = sdl2.SDL_Rect(dest[0], dest[1], srcrect.w, srcrect.h)
+                    dstrect = sdl2.SDL_Rect(round(dest[0]), round(dest[1]), srcrect.w, srcrect.h)
                 else:
-                    dstrect = sdl2.SDL_Rect(dest[0], dest[1], surface.w, surface.h)
+                    dstrect = sdl2.SDL_Rect(round(dest[0]), round(dest[1]), surface.w, surface.h)
 
             elif len(dest) == 4:
                 dstrect = sdl2.SDL_Rect()
-                dstrect.x = dest[0][0]
-                dstrect.y = dest[0][1]
-                dstrect.w = dest[1][0] - dest[0][0]
-                dstrect.h = dest[1][1] - dest[0][1]
+                dstrect.x = round(dest[0][0])
+                dstrect.y = round(dest[0][1])
+                dstrect.w = round(dest[1][0] - dest[0][0])
+                dstrect.h = round(dest[1][1] - dest[0][1])
             
             else:
-                dstrect = None
+                raise IndexError("\'dest\' should have 2 or 4 values. ")
         else:
-            dstrect = None
+            if src:
+                dstrect = sdl2.SDL_Rect(round(dest[0]), round(dest[1]), srcrect.w, srcrect.h)
+            else:
+                dstrect = sdl2.SDL_Rect(0, 0, surface.w, surface.h)
 
 
-        texture = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
-        sdl2.SDL_RenderCopy(self.renderer, texture, srcrect, dstrect)
+        text = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
+
+        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle + angle, sdl2.SDL_Point(int(surface.w/2), int(surface.h/2)), sdl2.SDL_FLIP_NONE)
 
 
 
 class Surface():
-    def __init__(self, w, h, depth = 32, mask = (0, 0, 0, 0)):
+    def __init__(self, w, h, angle = 0, depth = 32, mask = (0, 0, 0, 0)):
         self.surface = sdl2.SDL_CreateRGBSurface(0, w, h, depth, mask[0], mask[1], mask[2], mask[3]).contents
         self.renderer = sdl2.SDL_CreateSoftwareRenderer(self.surface, -1, 0)
 
@@ -91,13 +96,16 @@ class Surface():
         self.depth = depth
         self.mask = mask
 
+        self.angle = angle
 
-    def blit(self, surface, src = None, dest = None):
+
+    def blit(self, surface, src = None, dest = None, angle = 0):
         if src:
             srcrect = sdl2.SDL_Rect(src[0][0], src[0][1], src[1][0] - src[0][0], src[1][1] - src[0][1])
 
         else:
             srcrect = None
+        
         if dest:
             if len(dest) == 2:
                 if src:
@@ -113,15 +121,24 @@ class Surface():
                 dstrect.h = dest[1][1] - dest[0][1]
             
             else:
-                dstrect = None
+                raise IndexError("\'dest\' should have 2 or 4 values. ")
         else:
-            dstrect = None
-            
-        sdl2.SDL_BlitSurface(surface.surface, srcrect, self.surface, dstrect)
+            if src:
+                dstrect = sdl2.SDL_Rect(dest[0], dest[1], srcrect.w, srcrect.h)
+            else:
+                dstrect = sdl2.SDL_Rect(0, 0, surface.w, surface.h)
+        
+        text = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
+
+        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle + angle, sdl2.SDL_Point(0, 0), sdl2.SDL_FLIP_NONE)
     
     def fill(self, colour):
-        num = "0x" + hex(colour[0])[2:].ljust(2, "0") + hex(colour[1])[2:].ljust(2, "0") + hex(colour[2])[2:].ljust(2, "0")
-        sdl2.SDL_FillRect(self.surface, None, int(num, 16))
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256)
+        sdl2.SDL_SetRenderDrawColor(self.renderer, colour[0], colour[1], colour[2], 255)
+        sdl2.SDL_RenderClear(self.renderer)
+    
+    def rotate(self, angle):
+        self.angle += angle
 
 
 def get_events():
