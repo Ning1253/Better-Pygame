@@ -1,10 +1,10 @@
-from ctypes import *
+from ctypes import CDLL, c_double, c_int, c_bool, POINTER
 
 double = c_double
 cint = c_int
 cbool = c_bool
 
-file = CDLL("C:/Users/aslas/Desktop/EPQ/Files/collisions.dll")
+file = CDLL("C:/Users/aslas/Desktop/EPQ/Github/Better-Pygame/Collisions/collisions.dll")
 
 def wrap_function(file, func, argtypes = None, restype = None):
     func = file.__getattr__(func)

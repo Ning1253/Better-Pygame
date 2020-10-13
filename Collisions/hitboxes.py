@@ -1,7 +1,7 @@
 from math import sin, cos, atan, sqrt, pi
 import os
 from PIL import Image
-from collisions import r_coll, c_coll, p_coll, rc_coll, pr_coll, pc_coll
+from Collisions.collisions import r_coll, c_coll, p_coll, rc_coll, pr_coll, pc_coll
 
 def dcos(num):
     return cos(num / 360 * 2 * pi)
