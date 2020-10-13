@@ -1,5 +1,3 @@
-import Display.graphics as graphics
-import Collisions.hitboxes as collisions
 import time
 
 class Sprite():
