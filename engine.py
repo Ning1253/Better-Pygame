@@ -7,3 +7,4 @@ from classes import *
 from Display.graphics import *
 from Display.events import *
 from Collisions.hitboxes import *
+from winsound import PlaySound, Beep
