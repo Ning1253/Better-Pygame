@@ -24,11 +24,11 @@ class DisplayError(Exception):
 _displays = 0
 
 class Display():
-    def __init__(self, width, height, title = b"Better Pygame", x=sdl2.SDL_WINDOWPOS_CENTERED, y=sdl2.SDL_WINDOWPOS_CENTERED):
+    def __init__(self, width, height, title = "Better Pygame", x=sdl2.SDL_WINDOWPOS_CENTERED, y=sdl2.SDL_WINDOWPOS_CENTERED):
         """
             Initialise a display with a title, width and height. 
         """
-
+        title = title.encode()
         global _displays
         if not _displays:
             self.window = sdl2.SDL_CreateWindow(title, x, y, width, height, 0)
