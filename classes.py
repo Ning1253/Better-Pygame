@@ -42,8 +42,8 @@ class Sprite():
         if self.image:
             self.image.rotate(angle)
 
-    def draw(self, surface, dest = None):
-        surface.blit(self.image, dest=(self.x, self.y), angle = self.angle)
+    def draw(self, surface):
+        surface.blit(self.image, dest=(self.x, self.y), angle = 0)
     
     def update(self):
         ...
@@ -66,12 +66,22 @@ class Group():
     def __init__(self):
         self.sprites = []
     
-    def add(self, sprite):
-        if type(sprite) != Sprite and not issubclass(type(sprite), Sprite):
-            raise TypeError("Can only add sprite to sprite group object. ")
-        else:
-            self.sprites.append(sprite)
+    def add(self, *sprites):
+        for sprite in sprites:
+            if type(sprite) != Sprite and not issubclass(type(sprite), Sprite):
+                raise TypeError("Can only add sprite to sprite group object. ")
+            else:
+                self.sprites.append(sprite)
     
     def update(self):
         for sprite in self.sprites:
             sprite.update()
+        
+    def draw(self, surface):
+        for sprite in self.sprites:
+            sprite.draw(surface)
+
+class Event():
+    def __init__(self, event):
+        self.key = event.key.keysym.sym
+        self.type = event.type

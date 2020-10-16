@@ -80,7 +80,7 @@ class Display():
 
         text = sdl2.SDL_CreateTextureFromSurface(self.renderer, surface.surface)
 
-        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle - angle, sdl2.SDL_Point(int(surface.w/2), int(surface.h/2)), sdl2.SDL_FLIP_NONE)
+        sdl2.SDL_RenderCopyEx(self.renderer, text, srcrect, dstrect, -surface.angle - angle, sdl2.SDL_Point(0, 0), sdl2.SDL_FLIP_NONE)
 
 
 
@@ -141,7 +141,7 @@ class Surface():
         self.angle += angle
 
 
-def get_events():
+def events():
     return sdl2.ext.get_events()
 
 def draw_circle(surface, x, y, rad, colour = (0, 0, 0, 0), Filled = True):
