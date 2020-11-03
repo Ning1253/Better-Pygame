@@ -29,7 +29,7 @@ class Sprite():
         self.y -= other[1]
 
         if self.collider:
-            self.collider += (other[0], other[1])
+            self.collider -= (other[0], other[1])
 
         return self
 
@@ -83,5 +83,14 @@ class Group():
 
 class Event():
     def __init__(self, event):
-        self.key = event.key.keysym.sym
         self.type = event.type
+        self.key = event.key.keysym.sym
+        self.event = event
+
+        self.x = event.motion.x
+        self.y = event.motion.y
+
+        self.x = event.button.x
+        self.y = event.button.y
+        self.button = event.button.button
+        self.clicks = event.button.clicks

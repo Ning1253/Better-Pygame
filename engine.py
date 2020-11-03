@@ -19,9 +19,9 @@ def get_events():
 
     for event in events():
         event = Event(event)
-        if event.key < 256 and event.type == KEYDOWN:
+        if event.type == KEYDOWN:
             pressed[event.key] = 1
-        elif event.key < 256 and event.type == KEYUP:
+        elif event.type == KEYUP:
             pressed[event.key] = 0
         
         array.append(event)

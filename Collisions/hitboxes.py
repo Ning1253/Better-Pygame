@@ -31,8 +31,8 @@ class Rect(Collider):
         self.corners = [0, 0, 0, 0]
 
         self.corners[0] = (round(x, 10), round(y, 10))
-        self.corners[1] = (round(x + width * dcos(angle), 10), round(y + width * dsin(angle), 10))
-        self.corners[2] = (round(x + height * dcos(270 + angle), 10), round(y + height * dsin(270 + angle), 10))
+        self.corners[1] = (round(x + width * dcos(self.angle), 10), round(y - width * dsin(self.angle), 10))
+        self.corners[2] = (round(x + height * dcos(270 + self.angle), 10), round(y - height * dsin(270 + self.angle), 10))
         
         w = self.width
         h = self.height
