@@ -106,7 +106,7 @@ There are three types of colliders - `Rect()`, `Circle()` and `PixelArray()` (al
 ## Taking Inputs
 An `Event()` is, well, an event which takes place whenever a key is pressed or the mouse is moved or basically any event happens. The codes for the letters and numbers, as well as the space bar, is simply `ord("char")` for the character you wish. Events have the following properties:
   - `type` - the type of event it is. The types of events are:
-  ```
+```
     - AUDIODEVICEADDED
     - AUDIODEVICEREMOVED
 
@@ -157,8 +157,8 @@ An `Event()` is, well, an event which takes place whenever a key is pressed or t
     - USEREVENT
 
     - WINDOWEVENT
-  ```
-    - These can be accessed like so: `engine.EVENTNAME`. 
+```
+  - These can be accessed like so: `engine.EVENTNAME`. 
   - `key` - If a key was pressed or unpressed, the code of that key. 
   - `event` - in case you want access to the original SDL2 event which was returned.
   - `x` and `y` for those events which would use those. 
