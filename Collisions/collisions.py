@@ -1,10 +1,18 @@
 from ctypes import CDLL, c_double, c_int, c_bool, POINTER
+import os, platform
 
 double = c_double
 cint = c_int
 cbool = c_bool
 
-file = CDLL("C:/Users/aslas/Desktop/EPQ/Github/Better-Pygame/Collisions/collisions.dll")
+arch = platform.architecture()[0]
+
+if arch == "64bit":
+    file = CDLL(os.path.split(os.path.realpath(__file__))[0] + "\\collisions64.dll")
+elif arch == "32bit":
+    file = CDLL(os.path.split(os.path.realpath(__file__))[0] + "\\collisions32.dll")
+else:
+    raise TypeError("This program does not support potatoes. ")
 
 def wrap_function(file, func, argtypes = None, restype = None):
     func = file.__getattr__(func)

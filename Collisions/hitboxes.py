@@ -21,22 +21,27 @@ class Rect(Collider):
     def __init__(self, x, y, width, height, angle = 0):
         self.update(x, y, width, height, angle)
 
-    def update(self, x, y, width, height, angle):
+    def update(self, x, y, width, height, angle):      
         self.coords = (x, y)
         self.width = width
         self.height = height
         self.angle = angle % 360
 
-        
-        self.corners = [0, 0, 0, 0]
-
-        self.corners[0] = (round(x, 10), round(y, 10))
-        self.corners[1] = (round(x + width * dcos(self.angle), 10), round(y - width * dsin(self.angle), 10))
-        self.corners[2] = (round(x + height * dcos(270 + self.angle), 10), round(y - height * dsin(270 + self.angle), 10))
-        
         w = self.width
         h = self.height
         a = self.angle
+
+        self.corners = [0, 0, 0, 0]
+
+        corner1 = x - (sqrt(w ** 2 + h ** 2) * dcos(a - datan(h/w))) / 2
+        corner2 = y + (sqrt(w ** 2 + h ** 2) * dsin(a - datan(h/w))) / 2
+        self.corners[0] = (round(corner1, 10), round(corner2, 10))
+
+        x, y = self.corners[0][0], self.corners[0][1]
+
+        self.corners[1] = (round(x + width * dcos(self.angle), 10), round(y - width * dsin(self.angle), 10))
+        self.corners[2] = (round(x + height * dcos(270 + self.angle), 10), round(y - height * dsin(270 + self.angle), 10))    
+        
         corner1 = x + sqrt(w ** 2 + h ** 2) * dcos(a - datan(h/w))
         corner2 = y - sqrt(w ** 2 + h ** 2) * dsin(a - datan(h/w))
         self.corners[3] = (round(corner1, 10), round(corner2, 10))
@@ -109,6 +114,9 @@ class Circle(Collider):
     
     def radius(self, num):
         self.update(self.coords[0], self.coords[1], num)
+    
+    def rotate(self, angle):
+        pass
 
 
 class PixelArray(Collider):

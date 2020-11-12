@@ -47,7 +47,13 @@ class Sprite():
     
     def update(self):
         ...
+    
+    def get_rect(self):
+        return self.image.get_rect(self.x, self.y)
 
+    def get_circle(self):
+        return self.image.get_circle(self.x, self.y)
+        
 class Clock():
     def __init__(self):
         self.start = time.time()
