@@ -89,16 +89,16 @@ class Display():
 
 
 class Surface():
-    def __init__(self, w, h, angle = 0, depth = 32, mask = (255, 65280, 16711680, 4278190080)):
+    def __init__(self, width, height, angle = 0, depth = 32, mask = (255, 65280, 16711680, 4278190080)):
 
         self.type = "rect"
 
-        self.surface = sdl2.SDL_CreateRGBSurface(0, w, h, depth, mask[0], mask[1], mask[2], mask[3]).contents
+        self.surface = sdl2.SDL_CreateRGBSurface(0, width, height, depth, mask[0], mask[1], mask[2], mask[3]).contents
         self.renderer = sdl2.SDL_CreateSoftwareRenderer(self.surface, -1, 0)
 
 
-        self.w = w
-        self.h = h
+        self.w = width
+        self.h = height
 
         self.depth = depth
         self.mask = mask
@@ -143,16 +143,25 @@ class Surface():
 
         self.type = "circle"
 
+        if len(colour) == 3:
+            colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, 255)
+        elif len(colour) == 4:
+            colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, colour[3] % 256)
+
         if self.w >= self.h:
-            draw_circle(self, round(self.w / 2), round(self.h / 2), round(self.h / 2), (colour[0], colour[1], colour[2], 255), filled)
+            draw_circle(self, round(self.w / 2), round(self.h / 2), round(self.h / 2), (colour[0], colour[1], colour[2], colour[3]), filled)
         else:
-            draw_circle(self, round(self.w / 2), round(self.h / 2), round(self.w / 2), (colour[0], colour[1], colour[2], 255), filled)
+            draw_circle(self, round(self.w / 2), round(self.h / 2), round(self.w / 2), (colour[0], colour[1], colour[2], colour[3]), filled)
     
     def fill(self, colour):
         self.type = "rect"
         
-        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256)
-        sdl2.SDL_SetRenderDrawColor(self.renderer, colour[0], colour[1], colour[2], 255)
+        if len(colour) == 3:
+            colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, 255)
+        elif len(colour) == 4:
+            colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, colour[3] % 256)
+
+        sdl2.SDL_SetRenderDrawColor(self.renderer, colour[0], colour[1], colour[2], colour[3])
         sdl2.SDL_RenderClear(self.renderer)
     
     def rotate(self, angle):
@@ -176,15 +185,27 @@ def events():
     return sdl2.ext.get_events()
 
 def draw_circle(surface, x, y, rad, colour = (0, 0, 0, 0), Filled = True):
+    
+    if len(colour) == 3:
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, 255)
+    elif len(colour) == 4:
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, colour[3] % 256)
+
     if Filled:
         gfx.filledCircleRGBA(surface.renderer, x, y, rad, colour[0], colour[1], colour[2], colour[3])
     
     else:
         gfx.circleRGBA(surface.renderer, x, y, rad, colour[0], colour[1], colour[2], colour[3])
 
-def draw_rect(surface, x, y, w, h, angle = 0, colour = (0, 0, 0)):
+def draw_rect(surface, x, y, w, h, angle = 0, colour = (0, 0, 0, 0)):
+
+    if len(colour) == 3:
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, 255)
+    elif len(colour) == 4:
+        colour = (colour[0] % 256, colour[1] % 256, colour[2] % 256, colour[3] % 256)
+
     surf = Surface(w, h)
-    surf.fill((colour[0], colour[1], colour[2]))
+    surf.fill((colour[0], colour[1], colour[2], colour[3]))
     text = sdl2.SDL_CreateTextureFromSurface(surface.renderer, surf.surface)
     
     dstrect = sdl2.SDL_Rect(x, y, w, h)
