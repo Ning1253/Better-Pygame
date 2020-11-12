@@ -65,7 +65,7 @@ class Rect(Collider):
     
     def move(self, coords: tuple):
         """
-            Shift the topleft corner of the rect to the chosen coordinates
+            Shift the centre of the rect to the chosen coordinates
             (x, y)
         """
 
@@ -103,8 +103,8 @@ class Circle(Collider):
         self.update(self.coords[0] - other[0], self.coords[1] - other[1], self.rad)
         return self
     
-    def move(self, x, y):
-        self.update(x, y, self.radius)
+    def move(self, coords):
+        self.update(coords[0], coords[1], self.radius)
     
     def shiftx(self, num):
         self.update(self.coords[0] + num, self.coords[1], self.radius)
