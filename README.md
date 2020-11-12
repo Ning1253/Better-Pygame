@@ -54,3 +54,7 @@ Features:
   - `rad` - the radius of the circle to draw. 
   - `colour` - a tuple of the form rgb or rgba dictating the colour of the circle to draw
   - `Filled` - bool, whether or not to fill in the circle or draw only the outline. 
+ 
+`draw_rect(surface, x, y, w, h, angle = 0, colour = (0, 0, 0))` - draw a rectangle onto the chosen surface at chosen coordinates. Optional args:
+  - `colour` - a tuple of the form rgb or rgba dictating the colour of the rectangle to draw
+  - `angle` - the angle to draw the rectangle at. 
