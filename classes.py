@@ -9,6 +9,7 @@ class Sprite():
         self.y = y
     
         self.angle = angle
+        self.coords = (x, y)
 
         if self.collider:
             self.collider.rotate(angle)
@@ -22,6 +23,8 @@ class Sprite():
         if self.collider:
             self.collider += (other[0], other[1])
 
+        self.coords = (self.x, self.y)
+
         return self
     
     def __sub__(self, other: tuple):
@@ -31,7 +34,17 @@ class Sprite():
         if self.collider:
             self.collider -= (other[0], other[1])
 
+        self.coords = (self.x, self.y)
+
         return self
+
+    def move(self, coords):
+        self.x = coords[0]
+        self.y = coords[1]
+        self.coords = (self.x, self.y)
+
+        if self.collider:
+            self.collider.move(self.coords)
 
     def rotate(self, angle):
         self.angle += angle

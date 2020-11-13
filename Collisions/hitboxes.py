@@ -104,15 +104,15 @@ class Circle(Collider):
         return self
     
     def move(self, coords):
-        self.update(coords[0], coords[1], self.radius)
+        self.update(coords[0], coords[1], self.rad)
     
     def shiftx(self, num):
-        self.update(self.coords[0] + num, self.coords[1], self.radius)
+        self.update(self.coords[0] + num, self.coords[1], self.rad)
     
     def shifty(self, num):
-        self.update(self.coords[0], self.coords[1] + num, self.radius)
+        self.update(self.coords[0], self.coords[1] + num, self.rad)
     
-    def radius(self, num):
+    def sradius(self, num):
         self.update(self.coords[0], self.coords[1], num)
     
     def rotate(self, angle):
