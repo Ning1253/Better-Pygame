@@ -21,7 +21,7 @@ Features:
 ####   Methods:
 `Display.update()` - refresh the display. 
 
-`Display.fill(colour) - fill the display, with colour being an rgb length 3 tuple. 
+`Display.fill(colour)` - fill the display, with colour being an rgb length 3 tuple. 
 
 `Display.blit(surface, src = None, dest = None, angle = 0)` - copy a surface onto the display. Optional args:
   - `src`: A pair of tuples dictating the topleft and bottomright corners of the area of the surface to blit from. 
